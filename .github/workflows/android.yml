@@ -4,12 +4,25 @@ on:
   push:
     branches: [ main ]
     tags: [ 'v*' ]
+    paths-ignore:
+      - '**.md'
+      - 'assets/**'
+      - 'LICENSE'
+      - '.gitignore'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'assets/**'
+      - 'LICENSE'
+      - '.gitignore'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -30,17 +43,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Run detekt
-        run: ./gradlew detekt
-
-      - name: Run ktlintCheck
-        run: ./gradlew ktlintCheck
-
-      - name: Run lint
-        run: ./gradlew lintDebug
-
-      - name: Run tests
-        run: ./gradlew testDebugUnitTest
+      - name: Check and test
+        run: ./gradlew detekt ktlintCheck lintDebug testDebugUnitTest
 
       - name: Build debug APK
         run: ./gradlew assembleDebug
