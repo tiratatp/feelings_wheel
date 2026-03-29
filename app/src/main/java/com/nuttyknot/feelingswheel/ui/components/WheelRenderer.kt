@@ -40,6 +40,7 @@ private val textPaintLight =
 
 fun DrawScope.drawWheel(
     segments: List<EmotionSegment>,
+    segmentsByLayer: Map<WheelLayer, List<EmotionSegment>>,
     rotationDegrees: Float,
     wheelRadius: Float,
     center: Offset,
@@ -48,7 +49,7 @@ fun DrawScope.drawWheel(
     rotate(rotationDegrees, pivot = center) {
         // Draw segments layer by layer (core first, outer last)
         WheelLayer.entries.reversed().forEach { layer ->
-            val layerSegments = segments.filter { it.layer == layer }
+            val layerSegments = segmentsByLayer[layer] ?: emptyList()
             layerSegments.forEach { segment ->
                 drawSegmentArc(segment, wheelRadius, center, segment.id == selectedSegmentId)
             }

@@ -38,6 +38,7 @@ fun FeelingsWheel(
     val scope = rememberCoroutineScope()
     val flingAnimatable = remember { Animatable(initialRotation) }
     var activeFlingJob by remember { mutableStateOf<Job?>(null) }
+    val segmentsByLayer = remember(segments) { segments.groupBy { it.layer } }
 
     Canvas(
         modifier =
@@ -157,6 +158,7 @@ fun FeelingsWheel(
 
         drawWheel(
             segments = segments,
+            segmentsByLayer = segmentsByLayer,
             rotationDegrees = rotation,
             wheelRadius = wheelRadius,
             center = center,
