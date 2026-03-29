@@ -1,0 +1,14 @@
+complexity:
+  LongMethod:
+    threshold: 150
+  LongParameterList:
+    functionThreshold: 8
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - "Composable"
+
+style:
+  MagicNumber:
+    active: false

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#
+# Git pre-commit hook: auto-formats staged Kotlin files with ktlint,
+# then runs detekt to catch code smells before they are committed.
+
+set -euo pipefail
+
+# Capture staged Kotlin files before formatting
+STAGED_KT=$(git diff --cached --name-only --diff-filter=ACM -- '*.kt' '*.kts')
+
+echo "==> Running ktlintFormat..."
+./gradlew ktlintFormat --daemon -q
+
+# Re-stage only files that were already staged
+if [ -n "$STAGED_KT" ]; then
+    echo "==> Re-staging formatted files..."
+    echo "$STAGED_KT" | xargs git add
+fi
+
+echo "==> Running detekt..."
+./gradlew detekt --daemon -q
+
+echo "==> All checks passed."
