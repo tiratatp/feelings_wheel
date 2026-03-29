@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.21" apply false
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
     id("org.jlleitschuh.gradle.ktlint") version "14.0.1" apply false
+    id("com.github.triplet.play") version "3.13.0" apply false
 }
 
 tasks.register("installGitHook") {

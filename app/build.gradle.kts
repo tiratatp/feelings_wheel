@@ -3,7 +3,37 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("app.cash.paparazzi") version "1.3.5"
+    id("com.github.triplet.play")
 }
+
+fun gitTagCount(): Int =
+    try {
+        val process =
+            ProcessBuilder("git", "tag", "--list")
+                .directory(rootProject.projectDir)
+                .start()
+        process.inputStream
+            .bufferedReader()
+            .readLines()
+            .size
+    } catch (_: Exception) {
+        0
+    }
+
+fun gitVersionName(): String =
+    try {
+        val process =
+            ProcessBuilder("git", "describe", "--tags", "--abbrev=0")
+                .directory(rootProject.projectDir)
+                .start()
+        process.inputStream
+            .bufferedReader()
+            .readLine()
+            ?.trimStart('v')
+            ?.trim() ?: "1.0"
+    } catch (_: Exception) {
+        "1.0"
+    }
 
 android {
     namespace = "com.nuttyknot.feelingswheel"
@@ -13,19 +43,34 @@ android {
         applicationId = "com.nuttyknot.feelingswheel"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = maxOf(gitTagCount(), 1)
+        versionName = gitVersionName()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        val keystoreFile = System.getenv("KEYSTORE_FILE")
+        if (keystoreFile != null) {
+            create("release") {
+                storeFile = file(keystoreFile)
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            signingConfig = signingConfigs.findByName("release")
+                ?: signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -37,6 +82,15 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+}
+
+play {
+    track.set("internal")
+    defaultToAppBundles.set(true)
+    val jsonFile = System.getenv("PLAY_STORE_SERVICE_ACCOUNT_JSON")
+    if (jsonFile != null) {
+        serviceAccountCredentials.set(file(jsonFile))
     }
 }
 
