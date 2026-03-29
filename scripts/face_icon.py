@@ -24,9 +24,9 @@ LEFT_EYE = (42, 46.5, 2.5)
 RIGHT_EYE = (64, 50.5, 2.5)
 
 # Mouth: quadratic bezier (start, control, end)
-MOUTH_START = (30, 62)
-MOUTH_CONTROL = (52, 66)
-MOUTH_END = (78, 58)
+MOUTH_START = (30, 59)
+MOUTH_CONTROL = (54, 67)
+MOUTH_END = (78, 65)
 MOUTH_STROKE = 2.5
 
 
