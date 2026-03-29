@@ -23,6 +23,14 @@ Output: `app/src/main/play/listings/en-US/graphics/icon/icon.png`
 
 After tuning constants in `scripts/face_icon.py`, update the mouth `pathData` in `app/src/main/res/drawable/ic_launcher_foreground.xml` to match. The `generate_foreground_xml()` function can print the full XML.
 
+### Generate Feature Graphic (1024x500)
+
+```bash
+.venv/bin/python scripts/generate_feature_graphic.py
+```
+
+Output: `app/src/main/play/listings/en-US/graphics/feature-graphic/feature_graphic.png`
+
 ### Screenshots
 
 - `screenshot-wheel-default.png` — default wheel state
