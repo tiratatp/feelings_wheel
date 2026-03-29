@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -48,9 +49,11 @@ fun FeelingsWheelScreen(
 @Composable
 fun FeelingsWheelScreen(viewModel: FeelingsWheelViewModel = viewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val initialRotation = remember { (0..360).random().toFloat() }
     FeelingsWheelScreen(
         uiState = uiState,
         onSegmentTapped = { viewModel.selectSegment(it) },
         onDismiss = { viewModel.clearSelection() },
+        initialRotation = initialRotation,
     )
 }

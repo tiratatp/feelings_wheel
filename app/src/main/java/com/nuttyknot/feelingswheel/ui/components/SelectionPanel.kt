@@ -96,7 +96,12 @@ fun SelectionPanel(
                         text = selected.segment.label,
                         style = MaterialTheme.typography.displaySmall,
                         fontWeight = FontWeight.Bold,
-                        color = selected.segment.color,
+                        color =
+                            selected.segment.color.copy(
+                                red = selected.segment.color.red * 0.55f,
+                                green = selected.segment.color.green * 0.55f,
+                                blue = selected.segment.color.blue * 0.55f,
+                            ),
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
