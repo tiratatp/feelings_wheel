@@ -74,12 +74,12 @@ private fun DrawScope.drawSegmentArc(
 
     val color =
         if (isSelected) {
-            // Brighten selected segment
+            // Darken selected segment to distinguish from neighbors
             segment.color.copy(alpha = 1f).let { c ->
                 Color(
-                    red = (c.red + 0.2f).coerceAtMost(1f),
-                    green = (c.green + 0.2f).coerceAtMost(1f),
-                    blue = (c.blue + 0.2f).coerceAtMost(1f),
+                    red = c.red * 0.75f,
+                    green = c.green * 0.75f,
+                    blue = c.blue * 0.75f,
                     alpha = 1f,
                 )
             }
