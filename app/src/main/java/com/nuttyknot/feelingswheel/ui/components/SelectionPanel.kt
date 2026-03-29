@@ -96,10 +96,7 @@ fun SelectionPanel(
                         text = selected.segment.label,
                         style = MaterialTheme.typography.displaySmall,
                         fontWeight = FontWeight.Bold,
-                        color =
-                            androidx.compose.ui.graphics.Color(
-                                selected.segment.coreEmotion.coreColor.value,
-                            ),
+                        color = selected.segment.color,
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))

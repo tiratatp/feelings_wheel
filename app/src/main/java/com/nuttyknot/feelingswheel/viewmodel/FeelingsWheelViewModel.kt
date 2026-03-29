@@ -5,6 +5,7 @@ import com.nuttyknot.feelingswheel.data.EmotionData
 import com.nuttyknot.feelingswheel.data.model.EmotionSegment
 import com.nuttyknot.feelingswheel.data.model.SelectedEmotion
 import com.nuttyknot.feelingswheel.data.model.WheelLayer
+import com.nuttyknot.feelingswheel.data.model.WheelPalette
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +21,7 @@ class FeelingsWheelViewModel : ViewModel() {
     val uiState: StateFlow<WheelUiState> = _uiState.asStateFlow()
 
     init {
-        _uiState.update { it.copy(segments = EmotionData.buildSegments()) }
+        _uiState.update { it.copy(segments = EmotionData.buildSegments(WheelPalette.Pastel)) }
     }
 
     fun selectSegment(segment: EmotionSegment) {

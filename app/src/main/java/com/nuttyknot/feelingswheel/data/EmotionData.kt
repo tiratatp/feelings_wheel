@@ -5,6 +5,7 @@ import com.nuttyknot.feelingswheel.data.model.EmotionSegment
 import com.nuttyknot.feelingswheel.data.model.MiddleEmotion
 import com.nuttyknot.feelingswheel.data.model.OuterEmotion
 import com.nuttyknot.feelingswheel.data.model.WheelLayer
+import com.nuttyknot.feelingswheel.data.model.WheelPalette
 
 object EmotionData {
     private val middleEmotions: Map<CoreEmotion, List<MiddleEmotion>> =
@@ -130,12 +131,13 @@ object EmotionData {
             "Tired" to listOf(OuterEmotion("Sleepy", "Tired"), OuterEmotion("Unfocused", "Tired")),
         )
 
-    fun buildSegments(): List<EmotionSegment> {
+    fun buildSegments(palette: WheelPalette = WheelPalette.Pastel): List<EmotionSegment> {
         val segments = mutableListOf<EmotionSegment>()
         val coreSweep = 360f / CoreEmotion.entries.size
 
         CoreEmotion.entries.forEachIndexed { coreIndex, core ->
             val coreStart = coreIndex * coreSweep
+            val colors = palette.colorsFor(core)
 
             // Core segment
             segments.add(
@@ -146,8 +148,8 @@ object EmotionData {
                     coreEmotion = core,
                     startAngle = coreStart,
                     sweepAngle = coreSweep,
-                    color = core.coreColor,
-                    useDarkText = core.useDarkText,
+                    color = colors.coreColor,
+                    useDarkText = colors.useDarkText,
                 ),
             )
 
@@ -166,8 +168,8 @@ object EmotionData {
                         coreEmotion = core,
                         startAngle = midStart,
                         sweepAngle = midSweep,
-                        color = core.middleColor,
-                        useDarkText = core.useDarkText,
+                        color = colors.middleColor,
+                        useDarkText = colors.useDarkText,
                     ),
                 )
 
@@ -186,8 +188,8 @@ object EmotionData {
                             coreEmotion = core,
                             startAngle = outerStart,
                             sweepAngle = outerSweep,
-                            color = core.outerColor,
-                            useDarkText = core.useDarkText,
+                            color = colors.outerColor,
+                            useDarkText = colors.useDarkText,
                         ),
                     )
                 }
