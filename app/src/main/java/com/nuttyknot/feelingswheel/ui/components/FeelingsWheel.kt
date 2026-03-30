@@ -20,6 +20,10 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import com.nuttyknot.feelingswheel.R
 import com.nuttyknot.feelingswheel.data.model.EmotionSegment
 import com.nuttyknot.feelingswheel.ui.util.AngleUtils
 import com.nuttyknot.feelingswheel.ui.util.HitTestUtils
@@ -41,11 +45,13 @@ fun FeelingsWheel(
     val flingAnimatable = remember { Animatable(initialRotation) }
     var activeFlingJob by remember { mutableStateOf<Job?>(null) }
     val segmentsByLayer = remember(segments) { segments.groupBy { it.layer } }
+    val wheelDescription = stringResource(R.string.wheel_content_description)
 
     Canvas(
         modifier =
             modifier
                 .fillMaxSize()
+                .semantics { contentDescription = wheelDescription }
                 .pointerInput(segments) {
                     val velocityTracker = VelocityTracker()
                     val dragThreshold = 10f

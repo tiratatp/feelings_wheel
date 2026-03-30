@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.nuttyknot.feelingswheel.R
 
@@ -34,7 +35,7 @@ fun AppFooter(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.primary,
             modifier =
-                Modifier.clickable {
+                Modifier.clickable(role = Role.Button) {
                     val intent =
                         Intent(Intent.ACTION_VIEW).apply {
                             data =
@@ -50,7 +51,7 @@ fun AppFooter(modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.primary,
             modifier =
-                Modifier.clickable {
+                Modifier.clickable(role = Role.Button) {
                     val intent =
                         Intent(Intent.ACTION_SEND).apply {
                             type = "text/plain"

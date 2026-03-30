@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.unit.dp
 import com.nuttyknot.feelingswheel.R
 import com.nuttyknot.feelingswheel.data.model.CoreEmotion
@@ -56,7 +57,7 @@ fun SettingsScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.settings),
+                            contentDescription = stringResource(R.string.navigate_back),
                         )
                     }
                 },
@@ -130,6 +131,7 @@ private fun PaletteRow(
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.clearAndSetSemantics {},
         ) {
             CoreEmotion.entries.forEach { emotion ->
                 Box(
