@@ -6,7 +6,9 @@ import com.nuttyknot.feelingswheel.data.EmotionData
 import com.nuttyknot.feelingswheel.data.model.CoreEmotion
 import com.nuttyknot.feelingswheel.data.model.SelectedEmotion
 import com.nuttyknot.feelingswheel.data.model.WheelLayer
+import com.nuttyknot.feelingswheel.data.model.WheelPalette
 import com.nuttyknot.feelingswheel.ui.screen.FeelingsWheelScreen
+import com.nuttyknot.feelingswheel.ui.screen.SettingsScreen
 import com.nuttyknot.feelingswheel.ui.theme.FeelingsWheelTheme
 import com.nuttyknot.feelingswheel.viewmodel.WheelUiState
 import org.junit.Rule
@@ -30,6 +32,7 @@ class FeelingsWheelScreenshotTest {
                     uiState = WheelUiState(segments = segments),
                     onSegmentTapped = {},
                     onDismiss = {},
+                    onSettingsClick = {},
                 )
             }
         }
@@ -49,6 +52,7 @@ class FeelingsWheelScreenshotTest {
                     uiState = WheelUiState(segments = segments, selectedEmotion = selected),
                     onSegmentTapped = {},
                     onDismiss = {},
+                    onSettingsClick = {},
                 )
             }
         }
@@ -78,6 +82,7 @@ class FeelingsWheelScreenshotTest {
                     uiState = WheelUiState(segments = segments, selectedEmotion = selected),
                     onSegmentTapped = {},
                     onDismiss = {},
+                    onSettingsClick = {},
                 )
             }
         }
@@ -92,6 +97,33 @@ class FeelingsWheelScreenshotTest {
                     onSegmentTapped = {},
                     onDismiss = {},
                     initialRotation = 120f,
+                    onSettingsClick = {},
+                )
+            }
+        }
+    }
+
+    @Test
+    fun settingsScreenPastel() {
+        paparazzi.snapshot {
+            FeelingsWheelTheme(dynamicColor = false) {
+                SettingsScreen(
+                    currentPalette = WheelPalette.Pastel,
+                    onPaletteSelected = {},
+                    onBackClick = {},
+                )
+            }
+        }
+    }
+
+    @Test
+    fun settingsScreenClassic() {
+        paparazzi.snapshot {
+            FeelingsWheelTheme(dynamicColor = false) {
+                SettingsScreen(
+                    currentPalette = WheelPalette.Classic,
+                    onPaletteSelected = {},
+                    onBackClick = {},
                 )
             }
         }

@@ -116,6 +116,9 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.animation:animation")
 
+    implementation("androidx.navigation:navigation-compose:2.8.9")
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
+
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 

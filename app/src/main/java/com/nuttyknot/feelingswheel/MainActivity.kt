@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.nuttyknot.feelingswheel.ui.screen.FeelingsWheelScreen
+import com.nuttyknot.feelingswheel.ui.navigation.AppNavHost
 import com.nuttyknot.feelingswheel.ui.theme.FeelingsWheelTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FeelingsWheelTheme {
-                FeelingsWheelScreen()
+                AppNavHost()
             }
         }
     }
