@@ -89,9 +89,19 @@ android {
 play {
     track.set("internal")
     defaultToAppBundles.set(true)
-    val jsonFile = System.getenv("PLAY_STORE_SERVICE_ACCOUNT_JSON")
-    if (jsonFile != null) {
-        serviceAccountCredentials.set(file(jsonFile))
+    val saJson = System.getenv("PLAY_STORE_SERVICE_ACCOUNT_JSON")
+    if (!saJson.isNullOrBlank()) {
+        val saFile = layout.buildDirectory.file("service-account.json")
+        serviceAccountCredentials.set(
+            saFile.map { f ->
+                f.also {
+                    it.asFile.apply {
+                        parentFile.mkdirs()
+                        writeText(saJson)
+                    }
+                }
+            },
+        )
     }
 }
 
