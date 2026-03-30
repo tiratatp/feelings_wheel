@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">\u0e27\u0e07\u0e25\u0e49\u0e2d\u0e04\u0e27\u0e32\u0e21\u0e23\u0e39\u0e49\u0e2a\u0e36\u0e01</string>
-    <string name="settings">\u0e01\u0e32\u0e23\u0e15\u0e31\u0e49\u0e07\u0e04\u0e48\u0e32</string>
-    <string name="navigate_back">\u0e22\u0e49\u0e2d\u0e19\u0e01\u0e25\u0e31\u0e1a</string>
-    <string name="wheel_content_description">\u0e27\u0e07\u0e25\u0e49\u0e2d\u0e2d\u0e32\u0e23\u0e21\u0e13\u0e4c\u0e41\u0e1a\u0e1a\u0e42\u0e15\u0e49\u0e15\u0e2d\u0e1a \u0e41\u0e15\u0e30\u0e2a\u0e48\u0e27\u0e19\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e2d\u0e32\u0e23\u0e21\u0e13\u0e4c</string>
-    <string name="settings_color_palette">\u0e0a\u0e38\u0e14\u0e2a\u0e35</string>
-    <string name="settings_language">\u0e20\u0e32\u0e29\u0e32</string>
-    <string name="palette_classic">\u0e04\u0e25\u0e32\u0e2a\u0e2a\u0e34\u0e01</string>
-    <string name="palette_pastel">\u0e1e\u0e32\u0e2a\u0e40\u0e17\u0e25</string>
-    <string name="im_feeling">\u0e09\u0e31\u0e19\u0e23\u0e39\u0e49\u0e2a\u0e36\u0e01\u2026</string>
-    <string name="clear_selection">\u0e25\u0e49\u0e32\u0e07\u0e01\u0e32\u0e23\u0e40\u0e25\u0e37\u0e2d\u0e01</string>
-    <string name="footer_made_by">\u0e2a\u0e23\u0e49\u0e32\u0e07\u0e14\u0e49\u0e27\u0e22 \u2665 \u0e42\u0e14\u0e22 NuttyKnot</string>
-    <string name="footer_report_bug">\u0e23\u0e32\u0e22\u0e07\u0e32\u0e19\u0e1b\u0e31\u0e0d\u0e2b\u0e32</string>
-    <string name="footer_share_app">\u0e41\u0e0a\u0e23\u0e4c\u0e41\u0e2d\u0e1b\u0e19\u0e35\u0e49</string>
-    <string name="footer_share_message">\u0e25\u0e2d\u0e07\u0e43\u0e0a\u0e49 Feelings Wheel - \u0e41\u0e2d\u0e1b\u0e27\u0e07\u0e25\u0e49\u0e2d\u0e04\u0e27\u0e32\u0e21\u0e23\u0e39\u0e49\u0e2a\u0e36\u0e01! https://play.google.com/store/apps/details?id=com.nuttyknot.feelingswheel</string>
+    <string name="app_name">วงล้อความรู้สึก</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="navigate_back">ย้อนกลับ</string>
+    <string name="wheel_content_description">วงล้ออารมณ์แบบโต้ตอบ แตะส่วนเพื่อเลือกอารมณ์</string>
+    <string name="settings_color_palette">ชุดสี</string>
+    <string name="settings_language">ภาษา</string>
+    <string name="palette_classic">คลาสสิก</string>
+    <string name="palette_pastel">พาสเทล</string>
+    <string name="im_feeling">ฉันรู้สึก…</string>
+    <string name="clear_selection">ล้างการเลือก</string>
+    <string name="footer_made_by">สร้างด้วย ♥ โดย NuttyKnot</string>
+    <string name="footer_report_bug">รายงานปัญหา</string>
+    <string name="footer_share_app">แชร์แอปนี้</string>
+    <string name="footer_share_message">ลองใช้ Feelings Wheel - แอปวงล้อความรู้สึก! https://play.google.com/store/apps/details?id=com.nuttyknot.feelingswheel</string>
+    <string name="onboarding_hint">หมุนเพื่อสำรวจ</string>
 </resources>

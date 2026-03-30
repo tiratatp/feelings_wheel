@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -26,6 +27,7 @@ data class WheelUiState(
     val selectedEmotion: SelectedEmotion? = null,
     val currentPalette: WheelPalette = WheelPalette.Pastel,
     val currentLanguage: SupportedLanguage = SupportedLanguage.ENGLISH,
+    val showOnboarding: Boolean = false,
 )
 
 class FeelingsWheelViewModel(
@@ -42,6 +44,12 @@ class FeelingsWheelViewModel(
     private var currentHierarchy: EmotionHierarchy = HierarchyProvider.hierarchyFor(SupportedLanguage.ENGLISH)
 
     init {
+        viewModelScope.launch {
+            val hasSeen = settingsRepository.hasSeenOnboarding.first()
+            if (!hasSeen) {
+                _uiState.update { it.copy(showOnboarding = true) }
+            }
+        }
         viewModelScope.launch {
             combine(
                 settingsRepository.selectedPalette,
@@ -115,6 +123,13 @@ class FeelingsWheelViewModel(
 
     fun clearSelection() {
         _uiState.update { it.copy(selectedEmotion = null) }
+    }
+
+    fun dismissOnboarding() {
+        _uiState.update { it.copy(showOnboarding = false) }
+        viewModelScope.launch {
+            settingsRepository.setHasSeenOnboarding()
+        }
     }
 
     fun setPalette(palette: WheelPalette) {

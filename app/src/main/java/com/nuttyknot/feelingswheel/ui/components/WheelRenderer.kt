@@ -14,30 +14,6 @@ import com.nuttyknot.feelingswheel.data.model.WheelLayer
 import kotlin.math.cos
 import kotlin.math.sin
 
-private val borderPaint =
-    Paint().apply {
-        style = Paint.Style.STROKE
-        color = android.graphics.Color.WHITE
-        strokeWidth = 2f
-        isAntiAlias = true
-    }
-
-private val textPaintDark =
-    Paint().apply {
-        color = android.graphics.Color.parseColor("#333333")
-        isAntiAlias = true
-        typeface = Typeface.DEFAULT_BOLD
-        textAlign = Paint.Align.CENTER
-    }
-
-private val textPaintLight =
-    Paint().apply {
-        color = android.graphics.Color.WHITE
-        isAntiAlias = true
-        typeface = Typeface.DEFAULT_BOLD
-        textAlign = Paint.Align.CENTER
-    }
-
 fun DrawScope.drawWheel(
     segments: List<EmotionSegment>,
     segmentsByLayer: Map<WheelLayer, List<EmotionSegment>>,
@@ -45,6 +21,30 @@ fun DrawScope.drawWheel(
     center: Offset,
     selectedSegmentId: String?,
 ) {
+    val borderPaint =
+        Paint().apply {
+            style = Paint.Style.STROKE
+            color = android.graphics.Color.WHITE
+            strokeWidth = 2f
+            isAntiAlias = true
+        }
+
+    val textPaintDark =
+        Paint().apply {
+            color = android.graphics.Color.parseColor("#333333")
+            isAntiAlias = true
+            typeface = Typeface.DEFAULT_BOLD
+            textAlign = Paint.Align.CENTER
+        }
+
+    val textPaintLight =
+        Paint().apply {
+            color = android.graphics.Color.WHITE
+            isAntiAlias = true
+            typeface = Typeface.DEFAULT_BOLD
+            textAlign = Paint.Align.CENTER
+        }
+
     // Draw segments layer by layer (core first, outer last) with batched borders
     WheelLayer.entries.reversed().forEach { layer ->
         val layerSegments = segmentsByLayer[layer] ?: emptyList()
@@ -76,7 +76,7 @@ fun DrawScope.drawWheel(
     // Draw text on top
     drawIntoCanvas { canvas ->
         segments.forEach { segment ->
-            drawSegmentText(canvas.nativeCanvas, segment, wheelRadius, center)
+            drawSegmentText(canvas.nativeCanvas, segment, wheelRadius, center, textPaintDark, textPaintLight)
         }
     }
 }
@@ -129,6 +129,8 @@ private fun drawSegmentText(
     segment: EmotionSegment,
     wheelRadius: Float,
     center: Offset,
+    textPaintDark: Paint,
+    textPaintLight: Paint,
 ) {
     val innerR = segment.layer.innerRadius * wheelRadius
     val outerR = segment.layer.outerRadius * wheelRadius

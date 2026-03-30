@@ -3,6 +3,7 @@ package com.nuttyknot.feelingswheel.data
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -18,6 +19,7 @@ class SettingsRepository(
 ) {
     private val paletteKey = stringPreferencesKey("palette_name")
     private val languageKey = stringPreferencesKey("language_tag")
+    private val onboardingKey = booleanPreferencesKey("has_seen_onboarding")
 
     val selectedPalette: Flow<WheelPalette> =
         context.dataStore.data.map { prefs ->
@@ -25,6 +27,11 @@ class SettingsRepository(
                 "Classic" -> WheelPalette.Classic
                 else -> WheelPalette.Pastel
             }
+        }
+
+    val hasSeenOnboarding: Flow<Boolean> =
+        context.dataStore.data.map { prefs ->
+            prefs[onboardingKey] ?: false
         }
 
     val selectedLanguage: Flow<SupportedLanguage> =
@@ -42,6 +49,12 @@ class SettingsRepository(
     suspend fun setLanguage(language: SupportedLanguage) {
         context.dataStore.edit { prefs ->
             prefs[languageKey] = language.tag
+        }
+    }
+
+    suspend fun setHasSeenOnboarding() {
+        context.dataStore.edit { prefs ->
+            prefs[onboardingKey] = true
         }
     }
 }

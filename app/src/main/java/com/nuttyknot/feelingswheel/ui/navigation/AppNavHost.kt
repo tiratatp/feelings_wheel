@@ -26,6 +26,7 @@ fun AppNavHost(viewModel: FeelingsWheelViewModel = viewModel()) {
                 onDismiss = { viewModel.clearSelection() },
                 initialRotation = initialRotation,
                 onSettingsClick = { navController.navigate("settings") },
+                onOnboardingDismissed = { viewModel.dismissOnboarding() },
             )
         }
         composable("settings") {

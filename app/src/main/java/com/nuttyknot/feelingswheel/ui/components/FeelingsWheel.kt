@@ -17,9 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -41,6 +43,7 @@ fun FeelingsWheel(
     initialRotation: Float = 0f,
 ) {
     var rotation by remember { mutableFloatStateOf(initialRotation) }
+    val hapticFeedback = LocalHapticFeedback.current
     val scope = rememberCoroutineScope()
     val flingAnimatable = remember { Animatable(initialRotation) }
     var activeFlingJob by remember { mutableStateOf<Job?>(null) }
@@ -139,6 +142,7 @@ fun FeelingsWheel(
                                     segmentsByLayer = segmentsByLayer,
                                 )
                             if (hitSegment != null) {
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                 onSegmentTapped(hitSegment)
                             }
                         } else {

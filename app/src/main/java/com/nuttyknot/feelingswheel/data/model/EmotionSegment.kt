@@ -1,6 +1,7 @@
 package com.nuttyknot.feelingswheel.data.model
 
 import androidx.compose.ui.graphics.Color
+import com.nuttyknot.feelingswheel.ui.util.darken
 
 data class EmotionSegment(
     val id: String,
@@ -14,11 +15,5 @@ data class EmotionSegment(
 ) {
     val endAngle: Float get() = startAngle + sweepAngle
     val midAngle: Float get() = startAngle + sweepAngle / 2f
-    val darkenedColor: Color =
-        Color(
-            red = color.red * 0.75f,
-            green = color.green * 0.75f,
-            blue = color.blue * 0.75f,
-            alpha = 1f,
-        )
+    val darkenedColor: Color = color.darken(0.75f)
 }
