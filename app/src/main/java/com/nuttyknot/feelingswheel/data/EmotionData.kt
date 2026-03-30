@@ -29,6 +29,7 @@ object EmotionData {
                     sweepAngle = coreSweep,
                     color = colors.coreColor,
                     useDarkText = colors.useDarkText,
+                    description = hierarchy.coreDescriptions[core] ?: "",
                 ),
             )
 
@@ -48,25 +49,27 @@ object EmotionData {
                         sweepAngle = midSweep,
                         color = colors.middleColor,
                         useDarkText = colors.useDarkText,
+                        description = mid.description,
                     ),
                 )
 
-                val outerList = mid.outerLabels
+                val outerList = mid.outerEmotions
                 val outerSweep = if (outerList.isNotEmpty()) midSweep / outerList.size else 0f
 
-                outerList.forEachIndexed { outerIndex, outerLabel ->
+                outerList.forEachIndexed { outerIndex, outerEmotion ->
                     val outerStart = midStart + outerIndex * outerSweep
 
                     segments.add(
                         EmotionSegment(
                             id = "outer_${core.name}_${midIndex}_$outerIndex",
-                            label = outerLabel,
+                            label = outerEmotion.label,
                             layer = WheelLayer.OUTER,
                             coreEmotion = core,
                             startAngle = outerStart,
                             sweepAngle = outerSweep,
                             color = colors.outerColor,
                             useDarkText = colors.useDarkText,
+                            description = outerEmotion.description,
                         ),
                     )
                 }

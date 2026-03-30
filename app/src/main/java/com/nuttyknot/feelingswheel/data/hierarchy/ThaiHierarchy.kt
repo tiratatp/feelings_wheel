@@ -3,6 +3,7 @@ package com.nuttyknot.feelingswheel.data.hierarchy
 import com.nuttyknot.feelingswheel.data.model.CoreEmotion
 import com.nuttyknot.feelingswheel.data.model.EmotionHierarchy
 import com.nuttyknot.feelingswheel.data.model.MiddleEmotionDef
+import com.nuttyknot.feelingswheel.data.model.OuterEmotionDef
 
 @Suppress("LongMethod")
 fun thaiHierarchy(): EmotionHierarchy =
@@ -17,195 +18,417 @@ fun thaiHierarchy(): EmotionHierarchy =
                 CoreEmotion.DISGUSTED to "รังเกียจ",
                 CoreEmotion.BAD to "แย่",
             ),
+        coreDescriptions =
+            mapOf(
+                CoreEmotion.HAPPY to "สภาวะที่รู้สึกดีและพึงพอใจ",
+                CoreEmotion.SAD to "สภาวะที่รู้สึกไม่มีความสุขหรือเศร้าโศก",
+                CoreEmotion.ANGRY to "ความรู้สึกไม่พอใจหรือเป็นปฏิปักษ์อย่างรุนแรง",
+                CoreEmotion.FEARFUL to "สภาวะที่รู้สึกหวาดกลัวหรือวิตกกังวล",
+                CoreEmotion.DISGUSTED to "ความรู้สึกรังเกียจหรือขยะแขยง",
+                CoreEmotion.SURPRISED to "สภาวะที่รู้สึกตกใจกับสิ่งที่ไม่คาดคิด",
+                CoreEmotion.BAD to "สภาวะที่รู้สึกไม่สบายใจหรืออึดอัด",
+            ),
         middleEmotions =
             mapOf(
                 CoreEmotion.HAPPY to
                     listOf(
                         MiddleEmotionDef(
-                            "ร่าเริง",
-                            listOf("กระตือรือร้น", "เขิน"),
+                            label = "ร่าเริง",
+                            description = "รู้สึกสนุกสนานและเบิกบาน",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("กระตือรือร้น", "รู้สึกตื่นเต้นและมีชีวิตชีวา"),
+                                    OuterEmotionDef("เขิน", "รู้สึกกล้าๆ กลัวๆ อย่างน่ารัก"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "สงบ",
-                            listOf("ผ่อนคลาย", "ชื่นใจ", "อุ่นใจ"),
+                            label = "สงบ",
+                            description = "รู้สึกสบายใจและผ่อนคลาย",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ผ่อนคลาย", "รู้สึกปลอดโปร่งไร้ความกังวล"),
+                                    OuterEmotionDef("ชื่นใจ", "รู้สึกสดชื่นและเบิกบาน"),
+                                    OuterEmotionDef("อุ่นใจ", "รู้สึกมั่นคงและปลอดภัย"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "สนใจ",
-                            listOf("อยากรู้", "ใฝ่รู้"),
+                            label = "สนใจ",
+                            description = "รู้สึกอยากเรียนรู้และใส่ใจ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("อยากรู้", "รู้สึกกระหายที่จะเรียนรู้"),
+                                    OuterEmotionDef("ใฝ่รู้", "รู้สึกอยากค้นหาและสำรวจ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ภูมิใจ",
-                            listOf("มั่นใจ", "สะใจ"),
+                            label = "ภูมิใจ",
+                            description = "รู้สึกพอใจกับความสำเร็จของตัวเอง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("มั่นใจ", "รู้สึกเชื่อมั่นในตัวเอง"),
+                                    OuterEmotionDef("สะใจ", "รู้สึกสมหวังและปลาบปลื้ม"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "เป็นที่ยอมรับ",
-                            listOf("ได้รับความเคารพ", "ซึ้ง"),
+                            label = "เป็นที่ยอมรับ",
+                            description = "รู้สึกว่าได้รับการต้อนรับ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ได้รับความเคารพ", "รู้สึกว่ามีคนนับถือ"),
+                                    OuterEmotionDef("ซึ้ง", "รู้สึกประทับใจอย่างลึกซึ้ง"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "มีพลัง",
-                            listOf("กล้าหาญ", "สร้างสรรค์"),
+                            label = "มีพลัง",
+                            description = "รู้สึกแข็งแกร่งและทรงอิทธิพล",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("กล้าหาญ", "รู้สึกกล้าเผชิญกับความยากลำบาก"),
+                                    OuterEmotionDef("สร้างสรรค์", "รู้สึกมีแรงบันดาลใจในการสร้างสิ่งใหม่"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "สงบสุข",
-                            listOf("เปี่ยมรัก", "สำนึกบุญคุณ"),
+                            label = "สงบสุข",
+                            description = "รู้สึกสงบและเป็นสุข",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("เปี่ยมรัก", "รู้สึกมีความรักและความอบอุ่น"),
+                                    OuterEmotionDef("สำนึกบุญคุณ", "รู้สึกขอบคุณและซาบซึ้ง"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ไว้วางใจ",
-                            listOf("อ่อนไหว", "สนิทใจ"),
+                            label = "ไว้วางใจ",
+                            description = "รู้สึกปลอดภัยที่จะพึ่งพาผู้อื่น",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("อ่อนไหว", "รู้สึกไวต่ออารมณ์และสิ่งรอบข้าง"),
+                                    OuterEmotionDef("สนิทใจ", "รู้สึกใกล้ชิดและเปิดใจ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "มองโลกในแง่ดี",
-                            listOf("มีความหวัง", "ได้แรงบันดาลใจ"),
+                            label = "มองโลกในแง่ดี",
+                            description = "รู้สึกมีความหวังเกี่ยวกับอนาคต",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("มีความหวัง", "รู้สึกคาดหวังในสิ่งดีๆ"),
+                                    OuterEmotionDef("ได้แรงบันดาลใจ", "รู้สึกมีแรงจูงใจที่จะลงมือทำ"),
+                                ),
                         ),
                     ),
                 CoreEmotion.SAD to
                     listOf(
                         MiddleEmotionDef(
-                            "เหงา",
-                            listOf("โดดเดี่ยว", "ถูกทอดทิ้ง"),
+                            label = "เหงา",
+                            description = "รู้สึกโดดเดี่ยวและขาดเพื่อน",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("โดดเดี่ยว", "รู้สึกถูกตัดขาดจากคนอื่น"),
+                                    OuterEmotionDef("ถูกทอดทิ้ง", "รู้สึกถูกทิ้งไว้ข้างหลัง"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "เปราะบาง",
-                            listOf("ถูกกระทำ", "บอบบาง"),
+                            label = "เปราะบาง",
+                            description = "รู้สึกเปิดเผยและไม่ได้รับการปกป้อง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ถูกกระทำ", "รู้สึกถูกปฏิบัติอย่างไม่เป็นธรรม"),
+                                    OuterEmotionDef("บอบบาง", "รู้สึกเปราะบางและแตกหักง่าย"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "สิ้นหวัง",
-                            listOf("เศร้าโศก", "หมดแรง"),
+                            label = "สิ้นหวัง",
+                            description = "รู้สึกหมดความหวังโดยสิ้นเชิง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("เศร้าโศก", "ความเศร้าลึกซึ้งจากการสูญเสีย"),
+                                    OuterEmotionDef("หมดแรง", "รู้สึกไม่สามารถเปลี่ยนแปลงอะไรได้"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "รู้สึกผิด",
-                            listOf("อับอาย", "สำนึกผิด"),
+                            label = "รู้สึกผิด",
+                            description = "รู้สึกว่าตัวเองทำผิด",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("อับอาย", "รู้สึกเสื่อมเสียหรือขายหน้า"),
+                                    OuterEmotionDef("สำนึกผิด", "รู้สึกเสียใจอย่างมากกับการกระทำ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "หดหู่",
-                            listOf("ด้อยค่า", "ว่างเปล่า"),
+                            label = "หดหู่",
+                            description = "รู้สึกหม่นหมองและไร้ความหวัง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ด้อยค่า", "รู้สึกว่าตัวเองมีคุณค่าน้อยกว่าคนอื่น"),
+                                    OuterEmotionDef("ว่างเปล่า", "รู้สึกกลวงเปล่าไร้อารมณ์"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ผิดหวัง",
-                            listOf("เสียใจ"),
+                            label = "ผิดหวัง",
+                            description = "รู้สึกเสียใจที่สิ่งที่หวังไม่เป็นจริง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("เสียใจ", "รู้สึกโศกเศร้ากับสิ่งที่เกิดขึ้น"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "เจ็บปวด",
-                            listOf("ทรมาน", "น้อยใจ"),
+                            label = "เจ็บปวด",
+                            description = "รู้สึกเจ็บปวดทางอารมณ์",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ทรมาน", "รู้สึกทุกข์ทรมานอย่างรุนแรง"),
+                                    OuterEmotionDef("น้อยใจ", "รู้สึกว่าไม่ได้รับความใส่ใจ"),
+                                ),
                         ),
                     ),
                 CoreEmotion.ANGRY to
                     listOf(
                         MiddleEmotionDef(
-                            "ถูกทำให้ผิดหวัง",
-                            listOf("ถูกหักหลัง", "เจ็บแค้น"),
+                            label = "ถูกทำให้ผิดหวัง",
+                            description = "รู้สึกถูกทำให้ผิดหวังจากคนที่ไว้ใจ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ถูกหักหลัง", "รู้สึกว่าความไว้ใจถูกทำลาย"),
+                                    OuterEmotionDef("เจ็บแค้น", "รู้สึกขมขื่นกับการถูกปฏิบัติอย่างไม่เป็นธรรม"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "อัปยศ",
-                            listOf("ถูกดูหมิ่น", "ถูกเยาะเย้ย"),
+                            label = "อัปยศ",
+                            description = "รู้สึกถูกทำให้อับอายต่อหน้าสาธารณะ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ถูกดูหมิ่น", "รู้สึกถูกปฏิบัติอย่างไม่ให้เกียรติ"),
+                                    OuterEmotionDef("ถูกเยาะเย้ย", "รู้สึกถูกล้อเลียนหรือเหยียดหยาม"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ขมขื่น",
-                            listOf("ขุ่นเคือง", "ถูกล่วงล้ำ"),
+                            label = "ขมขื่น",
+                            description = "รู้สึกเจ็บแค้นและแข็งกระด้าง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ขุ่นเคือง", "รู้สึกโกรธกับความไม่ยุติธรรม"),
+                                    OuterEmotionDef("ถูกล่วงล้ำ", "รู้สึกว่าขอบเขตถูกรุกล้ำ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "โมโห",
-                            listOf("เกรี้ยวกราด", "อิจฉา"),
+                            label = "โมโห",
+                            description = "รู้สึกโกรธอย่างรุนแรง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("เกรี้ยวกราด", "รู้สึกโกรธจัดอย่างควบคุมไม่ได้"),
+                                    OuterEmotionDef("อิจฉา", "รู้สึกอยากได้ในสิ่งที่คนอื่นมี"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ก้าวร้าว",
-                            listOf("ถูกยั่วยุ", "เป็นปฏิปักษ์"),
+                            label = "ก้าวร้าว",
+                            description = "รู้สึกเป็นปฏิปักษ์และต้องการต่อสู้",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ถูกยั่วยุ", "รู้สึกถูกกระตุ้นให้โกรธโดยเจตนา"),
+                                    OuterEmotionDef("เป็นปฏิปักษ์", "รู้สึกไม่เป็นมิตรและเป็นศัตรู"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "หงุดหงิด",
-                            listOf("รำคาญ", "งอน", "หมั่นไส้"),
+                            label = "หงุดหงิด",
+                            description = "รู้สึกถูกขัดขวางจากเป้าหมาย",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("รำคาญ", "รู้สึกรำคาญและหงุดหงิดเล็กน้อย"),
+                                    OuterEmotionDef("งอน", "รู้สึกน้อยใจและไม่พอใจ"),
+                                    OuterEmotionDef("หมั่นไส้", "รู้สึกขัดใจและไม่ชอบ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ห่างเหิน",
-                            listOf("เก็บตัว", "ชาชิน"),
+                            label = "ห่างเหิน",
+                            description = "รู้สึกแยกตัวทางอารมณ์",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("เก็บตัว", "ถอยห่างจากปฏิสัมพันธ์กับคนอื่น"),
+                                    OuterEmotionDef("ชาชิน", "รู้สึกไม่สามารถรู้สึกอะไรได้"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "จับผิด",
-                            listOf("ระแวง", "เมินเฉย"),
+                            label = "จับผิด",
+                            description = "รู้สึกชอบตัดสินและหาข้อตำหนิ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ระแวง", "รู้สึกสงสัยและไม่ไว้วางใจ"),
+                                    OuterEmotionDef("เมินเฉย", "รู้สึกไม่สนใจและมองข้ามผู้อื่น"),
+                                ),
                         ),
                     ),
                 CoreEmotion.FEARFUL to
                     listOf(
                         MiddleEmotionDef(
-                            "ขวัญหาย",
-                            listOf("สิ้นหนทาง", "หวาดผวา"),
+                            label = "ขวัญหาย",
+                            description = "รู้สึกหวาดกลัวและตื่นตระหนก",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("สิ้นหนทาง", "รู้สึกไม่สามารถช่วยเหลือตัวเองได้"),
+                                    OuterEmotionDef("หวาดผวา", "รู้สึกกลัวอย่างฉับพลัน"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "กังวล",
-                            listOf("รับไม่ไหว", "เกรงใจ", "อึดอัด"),
+                            label = "กังวล",
+                            description = "รู้สึกกระวนกระวายและเป็นห่วง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("รับไม่ไหว", "รู้สึกมีภาระมากเกินไป"),
+                                    OuterEmotionDef("เกรงใจ", "รู้สึกเกรงว่าจะรบกวนผู้อื่น"),
+                                    OuterEmotionDef("อึดอัด", "รู้สึกอัดอั้นและไม่สบายใจ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ไม่มั่นคง",
-                            listOf("รู้สึกไม่ดีพอ", "ด้อยกว่า"),
+                            label = "ไม่มั่นคง",
+                            description = "รู้สึกไม่แน่ใจในตัวเอง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("รู้สึกไม่ดีพอ", "รู้สึกว่าตัวเองยังไม่เพียงพอ"),
+                                    OuterEmotionDef("ด้อยกว่า", "รู้สึกว่าตัวเองต่ำกว่าคนอื่น"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "อ่อนแอ",
-                            listOf("ไร้ค่า", "ไม่สำคัญ"),
+                            label = "อ่อนแอ",
+                            description = "รู้สึกขาดกำลังหรือความมุ่งมั่น",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ไร้ค่า", "รู้สึกว่าตัวเองไม่มีคุณค่า"),
+                                    OuterEmotionDef("ไม่สำคัญ", "รู้สึกว่าตัวเองเล็กน้อยเกินไป"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ถูกปฏิเสธ",
-                            listOf("ถูกกีดกัน", "ถูกข่มเหง"),
+                            label = "ถูกปฏิเสธ",
+                            description = "รู้สึกถูกผลักไสหรือไม่เป็นที่ต้องการ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ถูกกีดกัน", "รู้สึกถูกกันออกโดยเจตนา"),
+                                    OuterEmotionDef("ถูกข่มเหง", "รู้สึกถูกเล่นงานอย่างไม่เป็นธรรม"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "หวาดหวั่น",
-                            listOf("ตื่นตระหนก", "เกรงกลัว"),
+                            label = "หวาดหวั่น",
+                            description = "รู้สึกว่าอยู่ในอันตราย",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ตื่นตระหนก", "รู้สึกเครียดและตึงเครียด"),
+                                    OuterEmotionDef("เกรงกลัว", "รู้สึกไม่ได้รับการปกป้อง"),
+                                ),
                         ),
                     ),
                 CoreEmotion.SURPRISED to
                     listOf(
                         MiddleEmotionDef(
-                            "ตกใจ",
-                            listOf("อึ้ง", "ใจหาย"),
+                            label = "ตกใจ",
+                            description = "รู้สึกตกใจกะทันหัน",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("อึ้ง", "รู้สึกตกตะลึงอย่างมาก"),
+                                    OuterEmotionDef("ใจหาย", "รู้สึกหวาดหวั่นกับสิ่งที่ไม่คาดคิด"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "สับสน",
-                            listOf("สิ้นศรัทธา", "งุนงง"),
+                            label = "สับสน",
+                            description = "รู้สึกงุนงงและไม่ชัดเจน",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("สิ้นศรัทธา", "รู้สึกผิดหวังกับสิ่งที่เคยเชื่อ"),
+                                    OuterEmotionDef("งุนงง", "รู้สึกสับสนและไม่เข้าใจ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ทึ่ง",
-                            listOf("อัศจรรย์ใจ", "เกรงขาม"),
+                            label = "ทึ่ง",
+                            description = "รู้สึกอัศจรรย์ใจและตะลึง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("อัศจรรย์ใจ", "รู้สึกประทับใจอย่างยิ่ง"),
+                                    OuterEmotionDef("เกรงขาม", "รู้สึกเคารพและยำเกรง"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ตื่นเต้น",
-                            listOf("ใจจดใจจ่อ", "เปี่ยมพลัง"),
+                            label = "ตื่นเต้น",
+                            description = "รู้สึกกระตือรือร้นและใจจดใจจ่อ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ใจจดใจจ่อ", "รู้สึกพร้อมและอยากเริ่มต้น"),
+                                    OuterEmotionDef("เปี่ยมพลัง", "รู้สึกเต็มไปด้วยพลังและชีวิตชีวา"),
+                                ),
                         ),
                     ),
                 CoreEmotion.DISGUSTED to
                     listOf(
                         MiddleEmotionDef(
-                            "ไม่เห็นด้วย",
-                            listOf("ดูถูก", "ขายหน้า"),
+                            label = "ไม่เห็นด้วย",
+                            description = "รู้สึกว่าสิ่งนั้นผิดหรือไม่เหมาะสม",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ดูถูก", "ตัดสินผู้อื่นอย่างรุนแรง"),
+                                    OuterEmotionDef("ขายหน้า", "รู้สึกอึดอัดและเสียหน้า"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "สลดใจ",
-                            listOf("ตกตะลึง", "สะอิดสะเอียน"),
+                            label = "สลดใจ",
+                            description = "รู้สึกผิดหวังกับสิ่งที่เกิดขึ้น",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ตกตะลึง", "รู้สึกตกใจและสยดสยอง"),
+                                    OuterEmotionDef("สะอิดสะเอียน", "รู้สึกรังเกียจอย่างรุนแรง"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "เลวร้าย",
-                            listOf("คลื่นไส้", "น่าชิงชัง"),
+                            label = "เลวร้าย",
+                            description = "รู้สึกแย่มากหรือไม่น่าพอใจอย่างยิ่ง",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("คลื่นไส้", "รู้สึกป่วยไข้ทางกาย"),
+                                    OuterEmotionDef("น่าชิงชัง", "รู้สึกว่าสิ่งนั้นสมควรถูกเกลียดชัง"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ขยะแขยง",
-                            listOf("สยดสยอง", "ลังเล"),
+                            label = "ขยะแขยง",
+                            description = "รู้สึกถูกผลักไสด้วยความรังเกียจ",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("สยดสยอง", "รู้สึกตกใจและหวาดกลัวอย่างมาก"),
+                                    OuterEmotionDef("ลังเล", "รู้สึกไม่แน่ใจและลังเลใจ"),
+                                ),
                         ),
                     ),
                 CoreEmotion.BAD to
                     listOf(
                         MiddleEmotionDef(
-                            "เบื่อ",
-                            listOf("เฉยๆ", "เซ็ง"),
+                            label = "เบื่อ",
+                            description = "รู้สึกไม่สนใจและกระสับกระส่าย",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("เฉยๆ", "รู้สึกไม่สนใจหรือใส่ใจ"),
+                                    OuterEmotionDef("เซ็ง", "รู้สึกขาดแรงจูงใจ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "ยุ่ง",
-                            listOf("ถูกเร่ง", "รีบร้อน"),
+                            label = "ยุ่ง",
+                            description = "รู้สึกมีภาระมากเกินไป",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ถูกเร่ง", "รู้สึกถูกกดดันให้ทำให้เสร็จ"),
+                                    OuterEmotionDef("รีบร้อน", "รู้สึกเร่งรีบและไม่มีเวลา"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "เครียด",
-                            listOf("กดดัน", "ควบคุมไม่ได้"),
+                            label = "เครียด",
+                            description = "รู้สึกกดดันทางจิตใจหรืออารมณ์",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("กดดัน", "รู้สึกไม่สามารถรับมือกับสิ่งต่างๆ ได้"),
+                                    OuterEmotionDef("ควบคุมไม่ได้", "รู้สึกว่าสิ่งต่างๆ อยู่เหนือการจัดการ"),
+                                ),
                         ),
                         MiddleEmotionDef(
-                            "เหนื่อย",
-                            listOf("ท้อ", "หมอง"),
+                            label = "เหนื่อย",
+                            description = "รู้สึกหมดแรงและต้องการพักผ่อน",
+                            outerEmotions =
+                                listOf(
+                                    OuterEmotionDef("ท้อ", "รู้สึกง่วงและอยากหลับ"),
+                                    OuterEmotionDef("หมอง", "รู้สึกกระจัดกระจายและไม่มีสมาธิ"),
+                                ),
                         ),
                     ),
             ),

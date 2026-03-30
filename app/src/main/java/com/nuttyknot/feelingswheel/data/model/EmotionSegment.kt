@@ -12,6 +12,7 @@ data class EmotionSegment(
     val sweepAngle: Float,
     val color: Color,
     val useDarkText: Boolean,
+    val description: String = "",
 ) {
     val endAngle: Float get() = startAngle + sweepAngle
     val midAngle: Float get() = startAngle + sweepAngle / 2f

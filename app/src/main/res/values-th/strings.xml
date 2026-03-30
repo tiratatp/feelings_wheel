@@ -15,4 +15,7 @@
     <string name="footer_share_app">แชร์แอปนี้</string>
     <string name="footer_share_message">ลองใช้ Feelings Wheel - แอปวงล้อความรู้สึก! https://play.google.com/store/apps/details?id=com.nuttyknot.feelingswheel</string>
     <string name="onboarding_hint">หมุนเพื่อสำรวจ</string>
+    <string name="copy_emotion">คัดลอก</string>
+    <string name="share_emotion">แชร์</string>
+    <string name="emotion_copied">คัดลอกแล้ว!</string>
 </resources>

@@ -15,4 +15,7 @@
     <string name="footer_share_app">Share This App</string>
     <string name="footer_share_message">Check out Feelings Wheel - an interactive emotion wheel app! https://play.google.com/store/apps/details?id=com.nuttyknot.feelingswheel</string>
     <string name="onboarding_hint">Spin to explore</string>
+    <string name="copy_emotion">Copy</string>
+    <string name="share_emotion">Share</string>
+    <string name="emotion_copied">Copied!</string>
 </resources>
