@@ -15,6 +15,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
@@ -151,6 +153,9 @@ fun FeelingsWheel(
                             }
                         }
                     }
+                }.graphicsLayer {
+                    rotationZ = rotation
+                    transformOrigin = TransformOrigin(0.5f, 1f)
                 },
     ) {
         val center = Offset(size.width / 2f, size.height)
@@ -159,7 +164,6 @@ fun FeelingsWheel(
         drawWheel(
             segments = segments,
             segmentsByLayer = segmentsByLayer,
-            rotationDegrees = rotation,
             wheelRadius = wheelRadius,
             center = center,
             selectedSegmentId = selectedSegmentId,

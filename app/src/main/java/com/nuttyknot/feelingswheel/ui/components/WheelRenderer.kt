@@ -7,7 +7,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.nativeCanvas
 import com.nuttyknot.feelingswheel.data.model.EmotionSegment
 import com.nuttyknot.feelingswheel.data.model.WheelLayer
@@ -41,25 +40,42 @@ private val textPaintLight =
 fun DrawScope.drawWheel(
     segments: List<EmotionSegment>,
     segmentsByLayer: Map<WheelLayer, List<EmotionSegment>>,
-    rotationDegrees: Float,
     wheelRadius: Float,
     center: Offset,
     selectedSegmentId: String?,
 ) {
-    rotate(rotationDegrees, pivot = center) {
-        // Draw segments layer by layer (core first, outer last)
-        WheelLayer.entries.reversed().forEach { layer ->
-            val layerSegments = segmentsByLayer[layer] ?: emptyList()
+    // Draw segments layer by layer (core first, outer last) with batched borders
+    WheelLayer.entries.reversed().forEach { layer ->
+        val layerSegments = segmentsByLayer[layer] ?: emptyList()
+        layerSegments.forEach { segment ->
+            drawSegmentArc(segment, wheelRadius, center, segment.id == selectedSegmentId)
+        }
+        // Batch all borders for this layer into a single drawIntoCanvas
+        drawIntoCanvas { canvas ->
             layerSegments.forEach { segment ->
-                drawSegmentArc(segment, wheelRadius, center, segment.id == selectedSegmentId)
+                val outerR = segment.layer.outerRadius * wheelRadius
+                val rect =
+                    android.graphics.RectF(
+                        center.x - outerR,
+                        center.y - outerR,
+                        center.x + outerR,
+                        center.y + outerR,
+                    )
+                canvas.nativeCanvas.drawArc(
+                    rect,
+                    segment.startAngle,
+                    segment.sweepAngle,
+                    true,
+                    borderPaint,
+                )
             }
         }
+    }
 
-        // Draw text on top
-        drawIntoCanvas { canvas ->
-            segments.forEach { segment ->
-                drawSegmentText(canvas.nativeCanvas, segment, wheelRadius, center)
-            }
+    // Draw text on top
+    drawIntoCanvas { canvas ->
+        segments.forEach { segment ->
+            drawSegmentText(canvas.nativeCanvas, segment, wheelRadius, center)
         }
     }
 }
@@ -108,18 +124,6 @@ private fun DrawScope.drawSegmentArc(
             topLeft = Offset(center.x - innerR, center.y - innerR),
             size = Size(innerR * 2, innerR * 2),
         )
-    }
-
-    // Draw border
-    drawIntoCanvas { canvas ->
-        val rect =
-            android.graphics.RectF(
-                center.x - outerR,
-                center.y - outerR,
-                center.x + outerR,
-                center.y + outerR,
-            )
-        canvas.nativeCanvas.drawArc(rect, segment.startAngle, segment.sweepAngle, true, borderPaint)
     }
 }
 
