@@ -2,7 +2,7 @@ package com.nuttyknot.feelingswheel.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -16,7 +16,7 @@ import com.nuttyknot.feelingswheel.viewmodel.FeelingsWheelViewModel
 fun AppNavHost(viewModel: FeelingsWheelViewModel = viewModel()) {
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val initialRotation = remember { (0..360).random().toFloat() }
+    val initialRotation = rememberSaveable { (0..360).random().toFloat() }
 
     NavHost(navController = navController, startDestination = "wheel") {
         composable("wheel") {
@@ -32,6 +32,8 @@ fun AppNavHost(viewModel: FeelingsWheelViewModel = viewModel()) {
             SettingsScreen(
                 currentPalette = uiState.currentPalette,
                 onPaletteSelected = { viewModel.setPalette(it) },
+                currentLanguage = uiState.currentLanguage,
+                onLanguageSelected = { viewModel.setLanguage(it) },
                 onBackClick = { navController.popBackStack() },
             )
         }

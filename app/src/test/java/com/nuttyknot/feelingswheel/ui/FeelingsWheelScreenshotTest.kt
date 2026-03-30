@@ -3,8 +3,10 @@ package com.nuttyknot.feelingswheel.ui
 import app.cash.paparazzi.DeviceConfig.Companion.PIXEL_5
 import app.cash.paparazzi.Paparazzi
 import com.nuttyknot.feelingswheel.data.EmotionData
+import com.nuttyknot.feelingswheel.data.hierarchy.englishHierarchy
 import com.nuttyknot.feelingswheel.data.model.CoreEmotion
 import com.nuttyknot.feelingswheel.data.model.SelectedEmotion
+import com.nuttyknot.feelingswheel.data.model.SupportedLanguage
 import com.nuttyknot.feelingswheel.data.model.WheelLayer
 import com.nuttyknot.feelingswheel.data.model.WheelPalette
 import com.nuttyknot.feelingswheel.ui.screen.FeelingsWheelScreen
@@ -22,7 +24,8 @@ class FeelingsWheelScreenshotTest {
             maxPercentDifference = 1.0,
         )
 
-    private val segments = EmotionData.buildSegments()
+    private val hierarchy = englishHierarchy()
+    private val segments = EmotionData.buildSegments(hierarchy)
 
     @Test
     fun defaultState() {
@@ -44,7 +47,7 @@ class FeelingsWheelScreenshotTest {
         val selected =
             SelectedEmotion(
                 segment = coreSegment,
-                coreName = coreSegment.coreEmotion.label,
+                coreName = hierarchy.coreLabels[CoreEmotion.HAPPY] ?: "Happy",
             )
         paparazzi.snapshot {
             FeelingsWheelTheme(dynamicColor = false) {
@@ -71,7 +74,7 @@ class FeelingsWheelScreenshotTest {
         val selected =
             SelectedEmotion(
                 segment = outerSegment,
-                coreName = outerSegment.coreEmotion.label,
+                coreName = hierarchy.coreLabels[outerSegment.coreEmotion] ?: outerSegment.coreEmotion.name,
                 middleName = middleSegment?.label,
                 outerName = outerSegment.label,
             )
@@ -110,6 +113,8 @@ class FeelingsWheelScreenshotTest {
                 SettingsScreen(
                     currentPalette = WheelPalette.Pastel,
                     onPaletteSelected = {},
+                    currentLanguage = SupportedLanguage.ENGLISH,
+                    onLanguageSelected = {},
                     onBackClick = {},
                 )
             }
@@ -123,6 +128,8 @@ class FeelingsWheelScreenshotTest {
                 SettingsScreen(
                     currentPalette = WheelPalette.Classic,
                     onPaletteSelected = {},
+                    currentLanguage = SupportedLanguage.ENGLISH,
+                    onLanguageSelected = {},
                     onBackClick = {},
                 )
             }

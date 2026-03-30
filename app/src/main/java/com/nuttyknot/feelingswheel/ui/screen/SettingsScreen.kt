@@ -33,6 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nuttyknot.feelingswheel.R
 import com.nuttyknot.feelingswheel.data.model.CoreEmotion
+import com.nuttyknot.feelingswheel.data.model.SupportedLanguage
 import com.nuttyknot.feelingswheel.data.model.WheelPalette
 import com.nuttyknot.feelingswheel.ui.components.AppFooter
 
@@ -41,6 +42,8 @@ import com.nuttyknot.feelingswheel.ui.components.AppFooter
 fun SettingsScreen(
     currentPalette: WheelPalette,
     onPaletteSelected: (WheelPalette) -> Unit,
+    currentLanguage: SupportedLanguage,
+    onLanguageSelected: (SupportedLanguage) -> Unit,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -86,6 +89,22 @@ fun SettingsScreen(
                 onClick = { onPaletteSelected(WheelPalette.Classic) },
             )
 
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = stringResource(R.string.settings_language),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            )
+
+            SupportedLanguage.entries.forEach { language ->
+                LanguageRow(
+                    language = language,
+                    isSelected = currentLanguage == language,
+                    onClick = { onLanguageSelected(language) },
+                )
+            }
+
             Spacer(modifier = Modifier.height(48.dp))
 
             AppFooter()
@@ -127,6 +146,34 @@ private fun PaletteRow(
             text = label,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(start = 12.dp).weight(1f),
+        )
+
+        RadioButton(
+            selected = isSelected,
+            onClick = onClick,
+        )
+    }
+}
+
+@Composable
+private fun LanguageRow(
+    language: SupportedLanguage,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick)
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = language.displayName,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.weight(1f),
         )
 
         RadioButton(

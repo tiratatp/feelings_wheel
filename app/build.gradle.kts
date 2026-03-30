@@ -47,6 +47,7 @@ android {
         versionName = gitVersionName()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resourceConfigurations += listOf("en", "th")
     }
 
     signingConfigs {
@@ -122,6 +123,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.core:core-splashscreen:1.2.0")
 
     testImplementation("junit:junit:4.13.2")

@@ -3,8 +3,11 @@
     <string name="app_name">Feelings Wheel</string>
     <string name="settings">Settings</string>
     <string name="settings_color_palette">Color Palette</string>
+    <string name="settings_language">Language</string>
     <string name="palette_classic">Classic</string>
     <string name="palette_pastel">Pastel</string>
+    <string name="im_feeling">I\'m feeling\u2026</string>
+    <string name="clear_selection">Clear selection</string>
     <string name="footer_made_by">made with \u2665 by NuttyKnot</string>
     <string name="footer_report_bug">Report a Bug</string>
     <string name="footer_share_app">Share This App</string>

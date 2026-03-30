@@ -1,17 +1,23 @@
 package com.nuttyknot.feelingswheel.viewmodel
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.nuttyknot.feelingswheel.data.EmotionData
 import com.nuttyknot.feelingswheel.data.SettingsRepository
+import com.nuttyknot.feelingswheel.data.hierarchy.HierarchyProvider
+import com.nuttyknot.feelingswheel.data.model.EmotionHierarchy
 import com.nuttyknot.feelingswheel.data.model.EmotionSegment
 import com.nuttyknot.feelingswheel.data.model.SelectedEmotion
+import com.nuttyknot.feelingswheel.data.model.SupportedLanguage
 import com.nuttyknot.feelingswheel.data.model.WheelLayer
 import com.nuttyknot.feelingswheel.data.model.WheelPalette
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -19,6 +25,7 @@ data class WheelUiState(
     val segments: List<EmotionSegment> = emptyList(),
     val selectedEmotion: SelectedEmotion? = null,
     val currentPalette: WheelPalette = WheelPalette.Pastel,
+    val currentLanguage: SupportedLanguage = SupportedLanguage.ENGLISH,
 )
 
 class FeelingsWheelViewModel(
@@ -32,16 +39,27 @@ class FeelingsWheelViewModel(
     /** Maps outer segment ID -> parent middle segment for O(1) breadcrumb lookup. */
     private lateinit var outerToMiddleMap: Map<String, EmotionSegment>
 
+    private var currentHierarchy: EmotionHierarchy = HierarchyProvider.hierarchyFor(SupportedLanguage.ENGLISH)
+
     init {
         viewModelScope.launch {
-            settingsRepository.selectedPalette.collect { palette ->
-                rebuildSegments(palette)
+            combine(
+                settingsRepository.selectedPalette,
+                settingsRepository.selectedLanguage,
+            ) { palette, language ->
+                palette to language
+            }.collect { (palette, language) ->
+                rebuildSegments(palette, language)
             }
         }
     }
 
-    private fun rebuildSegments(palette: WheelPalette) {
-        val segments = EmotionData.buildSegments(palette)
+    private fun rebuildSegments(
+        palette: WheelPalette,
+        language: SupportedLanguage,
+    ) {
+        currentHierarchy = HierarchyProvider.hierarchyFor(language)
+        val segments = EmotionData.buildSegments(currentHierarchy, palette)
         val middleSegments = segments.filter { it.layer == WheelLayer.MIDDLE }
         outerToMiddleMap =
             segments
@@ -56,10 +74,18 @@ class FeelingsWheelViewModel(
                         }
                     },
                 )
-        _uiState.update { it.copy(segments = segments, currentPalette = palette) }
+        _uiState.update {
+            it.copy(
+                segments = segments,
+                currentPalette = palette,
+                currentLanguage = language,
+                selectedEmotion = null,
+            )
+        }
     }
 
     fun selectSegment(segment: EmotionSegment) {
+        val coreLabel = currentHierarchy.coreLabels[segment.coreEmotion] ?: segment.coreEmotion.name
         val selected =
             when (segment.layer) {
                 WheelLayer.CORE ->
@@ -70,14 +96,14 @@ class FeelingsWheelViewModel(
                 WheelLayer.MIDDLE ->
                     SelectedEmotion(
                         segment = segment,
-                        coreName = segment.coreEmotion.label,
+                        coreName = coreLabel,
                         middleName = segment.label,
                     )
                 WheelLayer.OUTER -> {
                     val middleSegment = outerToMiddleMap[segment.id]
                     SelectedEmotion(
                         segment = segment,
-                        coreName = segment.coreEmotion.label,
+                        coreName = coreLabel,
                         middleName = middleSegment?.label,
                         outerName = segment.label,
                     )
@@ -94,6 +120,14 @@ class FeelingsWheelViewModel(
     fun setPalette(palette: WheelPalette) {
         viewModelScope.launch {
             settingsRepository.setPalette(palette)
+        }
+    }
+
+    fun setLanguage(language: SupportedLanguage) {
+        viewModelScope.launch {
+            settingsRepository.setLanguage(language)
+            val localeList = LocaleListCompat.forLanguageTags(language.tag)
+            AppCompatDelegate.setApplicationLocales(localeList)
         }
     }
 }

@@ -24,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.nuttyknot.feelingswheel.R
 import com.nuttyknot.feelingswheel.data.model.SelectedEmotion
 
 @Composable
@@ -59,14 +61,14 @@ fun SelectionPanel(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = "I'm feeling...",
+                            text = stringResource(R.string.im_feeling),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         IconButton(onClick = onDismiss, modifier = Modifier.size(24.dp)) {
                             Icon(
                                 imageVector = Icons.Default.Close,
-                                contentDescription = "Clear selection",
+                                contentDescription = stringResource(R.string.clear_selection),
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
