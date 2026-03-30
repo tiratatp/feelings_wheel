@@ -13,9 +13,18 @@ Feelings Wheel is a fully offline Android application. It does not collect, stor
 This app does **not** collect any personal data or usage data. Specifically:
 
 - **No personal information** is collected (name, email, location, etc.)
-- **No usage analytics** or tracking of any kind
-- **No crash reporting** or diagnostics
+- **No usage analytics** or tracking by the app
+- **No crash reporting** or diagnostics sent by the app
 - **No cookies** or similar technologies
+
+## Google Play
+
+If you install this app from Google Play, Google may automatically collect certain data as part of its standard platform services, including:
+
+- **Crash reports and diagnostics** (Android vitals) — information about app stability and performance
+- **Aggregate usage data** — such as install counts, app opens, and device compatibility
+
+This data is collected by Google, not by the app or its developer. It is governed by [Google's Privacy Policy](https://policies.google.com/privacy). You can manage your data sharing preferences in your device's Google settings.
 
 ## Network Access
 
@@ -23,7 +32,7 @@ This app does **not** access the internet. It requests no network permissions an
 
 ## Third-Party Services
 
-This app uses **no** third-party services, SDKs, or libraries that collect data.
+This app does not include any third-party SDKs or libraries that collect data. However, Google Play Services on your device may collect data independently as described above.
 
 ## Data Storage
 
