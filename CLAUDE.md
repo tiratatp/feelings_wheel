@@ -33,27 +33,40 @@ Screenshot tests use [Paparazzi](https://github.com/cashapp/paparazzi) (no devic
 ./gradlew verifyPaparazziDebug               # Verify against golden screenshots
 ```
 
-Test file: `app/src/test/.../ui/FeelingsWheelScreenshotTest.kt`
+Test files are under `app/src/test/.../`: screenshot tests (`FeelingsWheelScreenshotTest`), utility tests (`AngleUtilsTest`, `HitTestUtilsTest`), ViewModel tests (`FeelingsWheelViewModelTest`), and data tests (`EmotionDataTest`).
 
 ## Architecture
 
 ### Data Layer (`data/`)
-- **`model/`** — Domain types: `CoreEmotion` (enum with 7 emotions + colors per layer), `MiddleEmotion`, `OuterEmotion`, `WheelLayer` (enum defining radius fractions for CORE/MIDDLE/OUTER rings), `EmotionSegment` (computed segment with angle + color), `SelectedEmotion` (breadcrumb of core > middle > outer).
-- **`EmotionData`** — Hardcoded emotion hierarchy. `buildSegments()` computes all `EmotionSegment`s by dividing 360° equally among cores, then subdividing for middle/outer layers.
+- **`model/`** — Domain types: `CoreEmotion` (enum with 7 emotions), `EmotionColors` (per-emotion 3-layer colors + `useDarkText` flag), `WheelPalette` (maps `CoreEmotion` → `EmotionColors`; defines `Classic` & `Pastel` palettes), `EmotionHierarchy` (localized emotion labels/descriptions via `MiddleEmotionDef`/`OuterEmotionDef`), `SupportedLanguage` (enum: English, Thai), `WheelLayer` (enum defining radius fractions for CORE/MIDDLE/OUTER rings), `EmotionSegment` (computed segment with angle + color), `SelectedEmotion` (breadcrumb of core > middle > outer).
+- **`hierarchy/`** — `HierarchyProvider` (returns `EmotionHierarchy` by `SupportedLanguage`), `EnglishHierarchy`, `ThaiHierarchy` (full emotion vocabularies).
+- **`EmotionData`** — `buildSegments()` computes all `EmotionSegment`s from a given `EmotionHierarchy` and `WheelPalette` by dividing 360° equally among cores, then subdividing for middle/outer layers.
+- **`SettingsRepository`** — DataStore-backed persistence for palette, language, and onboarding state.
 
 ### ViewModel (`viewmodel/`)
-- **`FeelingsWheelViewModel`** — Holds `WheelUiState` (segments + selected emotion) via `StateFlow`. `selectSegment()` builds a `SelectedEmotion` with breadcrumb path; `clearSelection()` resets it.
+- **`FeelingsWheelViewModel`** — Holds `WheelUiState` (segments, selected emotion, current palette, language, onboarding flag) via `StateFlow`. Observes `SettingsRepository` and rebuilds segments when palette or language changes. Manages segment selection, onboarding dismissal, and settings updates.
 
 ### UI Layer (`ui/`)
+- **`navigation/AppNavHost`** — Navigation graph with "wheel" and "settings" routes; shares a single `FeelingsWheelViewModel`.
 - **`screen/FeelingsWheelScreen`** — Root composable. Overlays `FeelingsWheel` with a `SelectionPanel` at the bottom.
+- **`screen/SettingsScreen`** — Settings UI for palette and language selection.
 - **`components/FeelingsWheel`** — Canvas-based wheel with touch handling. Supports drag-to-rotate with fling physics (`exponentialDecay`) and tap-to-select via hit testing. The wheel center is at bottom-center of the canvas (semi-circle layout).
 - **`components/WheelRenderer`** — `DrawScope` extension functions for rendering arcs (layer by layer, core first), borders, and radially-oriented text labels.
 - **`components/SelectionPanel`** — Animated bottom panel showing breadcrumb path and selected emotion name.
+- **`components/AppFooter`** — Credits, bug report link, and share button.
 - **`util/AngleUtils`** — Angle normalization, containment checks, touch-to-angle conversion.
 - **`util/HitTestUtils`** — Maps touch coordinates to an `EmotionSegment` by computing radius fraction (determines layer) and un-rotated angle (determines segment).
+- **`util/ColorUtils`** — `Color.darken()` extension.
+
+### Testing
+- `FeelingsWheelScreenshotTest` — Paparazzi screenshot tests for the wheel.
+- `AngleUtilsTest`, `HitTestUtilsTest` — Unit tests for geometry utilities.
+- `FeelingsWheelViewModelTest` — ViewModel logic tests.
+- `EmotionDataTest` — Segment computation tests.
 
 ### Key Design Details
 - The wheel is drawn as a **semi-circle** (center at bottom of canvas, `centerY = size.height`).
 - Segments are rendered by drawing full arcs then cutting out inner circles with white overdraw.
-- Colors are defined per `CoreEmotion` with three shades (core/middle/outer). `useDarkText` flag controls label contrast.
+- Colors are decoupled from `CoreEmotion` via `WheelPalette`/`EmotionColors`, enabling palette switching (Classic/Pastel).
+- Emotion labels are decoupled via `EmotionHierarchy`, enabling multi-language support.
 - Detekt config relaxes `MagicNumber`, raises `LongMethod` threshold to 150, and ignores `FunctionNaming` on `@Composable`.

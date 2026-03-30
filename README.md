@@ -4,30 +4,43 @@ Name your feelings with a beautiful, interactive emotion wheel.
 
 ## About
 
-Feelings Wheel helps you put words to what you're feeling. It displays an interactive wheel of emotions organized in three layers — from broad feelings at the center to specific emotions at the edges.
+Feelings Wheel helps you identify and name your emotions using a beautiful, interactive wheel. Spin, explore, and tap through three layers of feelings — from broad emotions at the center to precise words at the edges.
 
-Spin the wheel, then tap any segment to explore your emotions. The app shows you a path from general to specific, like **Happy > Playful > Cheeky**, helping you pinpoint exactly what you're experiencing.
+**Three layers of emotions**
+- **Core** — 7 broad feelings: Happy, Sad, Angry, Fearful, Disgusted, Surprised, Bad
+- **Middle** — ~41 more specific emotions like Playful, Lonely, or Insecure
+- **Outer** — ~82 precise words like Cheeky, Isolated, or Inadequate
 
-The wheel covers over 130 emotions across three rings:
+Tap any segment to see the full path — like **Happy → Playful → Cheeky** — helping you pinpoint exactly what you're experiencing.
 
-- **Core** — 7 broad emotions like Happy, Sad, Angry, and Fearful
-- **Middle** — more specific feelings like Playful, Lonely, or Insecure
-- **Outer** — precise emotions like Cheeky, Isolated, or Inadequate
+**Multi-language support** — Available in English and Thai (ภาษาไทย).
 
-Whether you're journaling, in therapy, practicing mindfulness, or just building emotional awareness, Feelings Wheel gives you the vocabulary to express how you feel.
+**Color palettes** — Choose between Classic (bold, saturated) and Pastel (soft, muted) color schemes.
 
-**Your privacy is respected.** The app works entirely offline — no internet connection, no data collection, no ads, no accounts, no permissions required. Your emotions stay on your device and nowhere else.
+**Landscape support** — Works beautifully in both portrait and landscape orientation.
+
+**100% private and offline.** No internet connection, no data collection, no ads, no accounts, no permissions. Your emotions stay on your device.
+
+Perfect for journaling, therapy, mindfulness, or building emotional awareness.
 
 ## Screenshots
+
+### Phone
 
 <p align="center">
   <img src="assets/screenshot-wheel-default.png" width="300" alt="Feelings Wheel default view" />&nbsp;&nbsp;
   <img src="assets/screenshot-wheel-selected.png" width="300" alt="Feelings Wheel with emotion selected" />
 </p>
 
+### Tablet
+
+<p align="center">
+  <img src="assets/screenshot-tablet-default.png" width="500" alt="Feelings Wheel on 10-inch tablet" />
+</p>
+
 ## Install
 
-**Google Play Store:** [Coming soon](#)
+**Google Play Store:** [Download on Google Play](https://play.google.com/store/apps/details?id=com.nuttyknot.feelingswheel)
 
 **Build from source:** See [Technical Details](#technical-details) below.
 
@@ -38,9 +51,9 @@ Whether you're journaling, in therapy, practicing mindfulness, or just building 
 
 Single-activity Android app built with Kotlin and Jetpack Compose (Material 3). Package: `com.nuttyknot.feelingswheel`, minSdk 26, targetSdk 35.
 
-- **Data layer** — `CoreEmotion` enum (7 emotions with per-layer colors), hierarchical `MiddleEmotion`/`OuterEmotion` types, and `EmotionData` which computes arc segments by dividing 360° equally
-- **ViewModel** — `FeelingsWheelViewModel` holds UI state via `StateFlow`; handles segment selection with breadcrumb path
-- **UI** — Canvas-based semi-circle wheel with drag-to-rotate (fling with `exponentialDecay`), tap-to-select via hit testing, and an animated selection panel
+- **Data layer** — `CoreEmotion` enum (7 emotions), swappable `WheelPalette` (Classic/Pastel) with `EmotionColors`, localized `EmotionHierarchy` (English/Thai) via `HierarchyProvider`, `SettingsRepository` (DataStore-backed persistence for palette, language, onboarding)
+- **ViewModel** — `FeelingsWheelViewModel` holds UI state via `StateFlow`; observes settings and rebuilds segments on palette/language change; handles segment selection, onboarding, and settings updates
+- **UI** — Canvas-based semi-circle wheel with drag-to-rotate (fling with `exponentialDecay`), tap-to-select via hit testing, animated selection panel, navigation (`AppNavHost` with wheel/settings routes), settings screen, and app footer
 
 ### Requirements
 
@@ -52,7 +65,7 @@ Single-activity Android app built with Kotlin and Jetpack Compose (Material 3). 
 
 ```bash
 ./gradlew assembleDebug       # Build debug APK
-./gradlew installDebug        # Build + install on connected device
+./gradlew installDebug        # Build + install (also runs ktlintCheck, lintDebug, detekt)
 ```
 
 ### Testing
