@@ -38,6 +38,11 @@ tasks.register<Copy>("copyScreenshots") {
         include("${prefix}selectedOuterEmotion.png")
         rename("${prefix}selectedOuterEmotion.png", "screenshot-wheel-selected.png")
     }
+    val tablet10Prefix = "com.nuttyknot.feelingswheel.ui_FeelingsWheelTablet10ScreenshotTest_"
+    from(snapshotDir) {
+        include("${tablet10Prefix}defaultState.png")
+        rename("${tablet10Prefix}defaultState.png", "screenshot-tablet-default.png")
+    }
     into("$rootDir/assets")
 }
 

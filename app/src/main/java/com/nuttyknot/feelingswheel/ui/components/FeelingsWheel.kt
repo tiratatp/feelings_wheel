@@ -41,6 +41,7 @@ fun FeelingsWheel(
     onSegmentTapped: (EmotionSegment) -> Unit,
     modifier: Modifier = Modifier,
     initialRotation: Float = 0f,
+    isLandscape: Boolean = false,
 ) {
     var rotation by remember { mutableFloatStateOf(initialRotation) }
     val hapticFeedback = LocalHapticFeedback.current
@@ -59,15 +60,23 @@ fun FeelingsWheel(
                     val velocityTracker = VelocityTracker()
                     val dragThreshold = 10f
 
+                    val centerX = 0f
+                    val centerY: Float
+                    val wheelRadius: Float
+                    if (isLandscape) {
+                        centerY = size.height / 2f
+                        wheelRadius = size.width.toFloat()
+                    } else {
+                        centerY = size.height.toFloat()
+                        wheelRadius = size.height.toFloat()
+                    }
+
                     awaitEachGesture {
                         val down = awaitFirstDown()
 
                         // Cancel any ongoing fling
                         activeFlingJob?.cancel()
                         activeFlingJob = null
-
-                        val centerX = 0f
-                        val centerY = size.height.toFloat()
 
                         var prevAngle =
                             AngleUtils.touchAngle(
@@ -102,9 +111,7 @@ fun FeelingsWheel(
                                     centerY,
                                 )
 
-                            var angleDelta = currentAngle - prevAngle
-                            if (angleDelta > 180f) angleDelta -= 360f
-                            if (angleDelta < -180f) angleDelta += 360f
+                            val angleDelta = AngleUtils.normalizeAngleDelta(currentAngle - prevAngle)
 
                             val moveDistance =
                                 change.positionChange().let {
@@ -130,13 +137,12 @@ fun FeelingsWheel(
 
                         if (!isDragging) {
                             // Tap - hit test
-                            val wheelRadius = size.height.toFloat()
                             val hitSegment =
                                 HitTestUtils.hitTest(
                                     touchX = down.position.x,
                                     touchY = down.position.y,
-                                    centerX = 0f,
-                                    centerY = size.height.toFloat(),
+                                    centerX = centerX,
+                                    centerY = centerY,
                                     wheelRadius = wheelRadius,
                                     rotationDegrees = rotation,
                                     segmentsByLayer = segmentsByLayer,
@@ -165,11 +171,19 @@ fun FeelingsWheel(
                     }
                 }.graphicsLayer {
                     rotationZ = rotation
-                    transformOrigin = TransformOrigin(0f, 1f)
+                    transformOrigin =
+                        if (isLandscape) TransformOrigin(0f, 0.5f) else TransformOrigin(0f, 1f)
                 },
     ) {
-        val center = Offset(0f, size.height)
-        val wheelRadius = size.height
+        val center: Offset
+        val wheelRadius: Float
+        if (isLandscape) {
+            center = Offset(0f, size.height / 2f)
+            wheelRadius = size.width
+        } else {
+            center = Offset(0f, size.height)
+            wheelRadius = size.height
+        }
 
         drawWheel(
             segments = segments,

@@ -1,5 +1,6 @@
 package com.nuttyknot.feelingswheel.ui.screen
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -7,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nuttyknot.feelingswheel.R
@@ -43,6 +46,9 @@ fun FeelingsWheelScreen(
     onSettingsClick: () -> Unit = {},
     onOnboardingDismissed: () -> Unit = {},
 ) {
+    val isLandscape =
+        LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+
     if (uiState.showOnboarding) {
         LaunchedEffect(Unit) {
             delay(3000L)
@@ -59,16 +65,25 @@ fun FeelingsWheelScreen(
                 onSegmentTapped(segment)
             },
             initialRotation = initialRotation,
+            isLandscape = isLandscape,
             modifier = Modifier.fillMaxSize(),
         )
 
         SelectionPanel(
             selectedEmotion = uiState.selectedEmotion,
             onDismiss = onDismiss,
+            isLandscape = isLandscape,
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter),
+                if (isLandscape) {
+                    Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(0.4f)
+                        .align(Alignment.CenterEnd)
+                } else {
+                    Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                },
         )
 
         AnimatedVisibility(

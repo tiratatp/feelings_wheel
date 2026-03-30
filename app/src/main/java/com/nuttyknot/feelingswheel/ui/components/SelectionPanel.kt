@@ -8,12 +8,15 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -48,28 +51,51 @@ fun SelectionPanel(
     selectedEmotion: SelectedEmotion?,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    isLandscape: Boolean = false,
 ) {
     AnimatedVisibility(
         visible = selectedEmotion != null,
-        enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
-        exit = slideOutVertically(targetOffsetY = { it }) + fadeOut(),
+        enter =
+            if (isLandscape) {
+                slideInHorizontally(initialOffsetX = { it }) + fadeIn()
+            } else {
+                slideInVertically(initialOffsetY = { it }) + fadeIn()
+            },
+        exit =
+            if (isLandscape) {
+                slideOutHorizontally(targetOffsetX = { it }) + fadeOut()
+            } else {
+                slideOutVertically(targetOffsetY = { it }) + fadeOut()
+            },
         modifier = modifier,
     ) {
         selectedEmotion?.let { selected ->
             val context = LocalContext.current
 
             Surface(
-                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                shape =
+                    if (isLandscape) {
+                        RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp)
+                    } else {
+                        RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                    },
                 tonalElevation = 4.dp,
-                modifier = Modifier.fillMaxWidth(),
+                modifier =
+                    if (isLandscape) {
+                        Modifier.fillMaxHeight().fillMaxWidth(0.4f)
+                    } else {
+                        Modifier.fillMaxWidth()
+                    },
             ) {
                 Column(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .then(if (isLandscape) Modifier.fillMaxHeight() else Modifier)
                             .padding(16.dp)
                             .semantics { liveRegion = LiveRegionMode.Polite },
                     horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = if (isLandscape) Arrangement.Center else Arrangement.Top,
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),

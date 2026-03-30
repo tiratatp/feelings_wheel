@@ -27,6 +27,14 @@ object AngleUtils {
         }
     }
 
+    /** Wrap an angle delta into the [-180, 180] range for shortest-path rotation. */
+    fun normalizeAngleDelta(delta: Float): Float {
+        var d = delta
+        if (d > 180f) d -= 360f
+        if (d < -180f) d += 360f
+        return d
+    }
+
     /** Compute angle in degrees from center (0,0) for a touch point. 0° = right, clockwise. */
     fun touchAngle(
         x: Float,
