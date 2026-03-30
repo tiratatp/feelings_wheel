@@ -24,7 +24,7 @@ object HitTestUtils {
         centerY: Float,
         wheelRadius: Float,
         rotationDegrees: Float,
-        segments: List<EmotionSegment>,
+        segmentsByLayer: Map<WheelLayer, List<EmotionSegment>>,
     ): EmotionSegment? {
         val dx = touchX - centerX
         val dy = touchY - centerY
@@ -45,9 +45,8 @@ object HitTestUtils {
         val touchAngle = AngleUtils.touchAngle(touchX, touchY, centerX, centerY)
         val unrotatedAngle = AngleUtils.normalize(touchAngle - rotationDegrees)
 
-        // Search matching segments (outer-first for priority)
-        val layerSegments = segments.filter { it.layer == layer }
-        return layerSegments.find { segment ->
+        // Look up segments directly from pre-grouped map (no filtering needed)
+        return segmentsByLayer[layer]?.find { segment ->
             AngleUtils.containsAngle(unrotatedAngle, segment.startAngle, segment.sweepAngle)
         }
     }

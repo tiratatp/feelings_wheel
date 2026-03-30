@@ -3,8 +3,9 @@ package com.nuttyknot.feelingswheel.ui.components
 import android.graphics.Paint
 import android.graphics.Typeface
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
@@ -89,41 +90,37 @@ private fun DrawScope.drawSegmentArc(
     val innerR = segment.layer.innerRadius * wheelRadius
     val outerR = segment.layer.outerRadius * wheelRadius
 
-    val color =
-        if (isSelected) {
-            // Darken selected segment to distinguish from neighbors
-            segment.color.copy(alpha = 1f).let { c ->
-                Color(
-                    red = c.red * 0.75f,
-                    green = c.green * 0.75f,
-                    blue = c.blue * 0.75f,
-                    alpha = 1f,
-                )
-            }
-        } else {
-            segment.color
-        }
+    val color = if (isSelected) segment.darkenedColor else segment.color
 
-    // Draw outer arc
-    drawArc(
-        color = color,
-        startAngle = segment.startAngle,
-        sweepAngle = segment.sweepAngle,
-        useCenter = true,
-        topLeft = Offset(center.x - outerR, center.y - outerR),
-        size = Size(outerR * 2, outerR * 2),
-    )
-
-    // Cut out inner circle (draw background color to create ring)
-    if (innerR > 0f) {
+    if (innerR == 0f) {
+        // Core segment — simple pie slice
         drawArc(
-            color = Color.White,
+            color = color,
             startAngle = segment.startAngle,
             sweepAngle = segment.sweepAngle,
             useCenter = true,
-            topLeft = Offset(center.x - innerR, center.y - innerR),
-            size = Size(innerR * 2, innerR * 2),
+            topLeft = Offset(center.x - outerR, center.y - outerR),
+            size = Size(outerR * 2, outerR * 2),
         )
+    } else {
+        // Ring segment — path-based to avoid white overdraw
+        val path =
+            Path().apply {
+                arcTo(
+                    rect = Rect(center.x - outerR, center.y - outerR, center.x + outerR, center.y + outerR),
+                    startAngleDegrees = segment.startAngle,
+                    sweepAngleDegrees = segment.sweepAngle,
+                    forceMoveTo = true,
+                )
+                arcTo(
+                    rect = Rect(center.x - innerR, center.y - innerR, center.x + innerR, center.y + innerR),
+                    startAngleDegrees = segment.startAngle + segment.sweepAngle,
+                    sweepAngleDegrees = -segment.sweepAngle,
+                    forceMoveTo = false,
+                )
+                close()
+            }
+        drawPath(path, color)
     }
 }
 

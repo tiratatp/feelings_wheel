@@ -20,13 +20,29 @@ class FeelingsWheelViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(WheelUiState())
     val uiState: StateFlow<WheelUiState> = _uiState.asStateFlow()
 
+    /** Maps outer segment ID → parent middle segment for O(1) breadcrumb lookup. */
+    private lateinit var outerToMiddleMap: Map<String, EmotionSegment>
+
     init {
-        _uiState.update { it.copy(segments = EmotionData.buildSegments(WheelPalette.Pastel)) }
+        val segments = EmotionData.buildSegments(WheelPalette.Pastel)
+        val middleSegments = segments.filter { it.layer == WheelLayer.MIDDLE }
+        outerToMiddleMap =
+            segments
+                .filter { it.layer == WheelLayer.OUTER }
+                .associateBy(
+                    keySelector = { it.id },
+                    valueTransform = { outer ->
+                        middleSegments.first { mid ->
+                            mid.coreEmotion == outer.coreEmotion &&
+                                outer.startAngle >= mid.startAngle &&
+                                outer.startAngle < mid.startAngle + mid.sweepAngle
+                        }
+                    },
+                )
+        _uiState.update { it.copy(segments = segments) }
     }
 
     fun selectSegment(segment: EmotionSegment) {
-        val segments = _uiState.value.segments
-
         val selected =
             when (segment.layer) {
                 WheelLayer.CORE ->
@@ -41,14 +57,7 @@ class FeelingsWheelViewModel : ViewModel() {
                         middleName = segment.label,
                     )
                 WheelLayer.OUTER -> {
-                    // Find parent middle by checking which middle segment contains this outer's angle
-                    val middleSegment =
-                        segments.find { s ->
-                            s.layer == WheelLayer.MIDDLE &&
-                                s.coreEmotion == segment.coreEmotion &&
-                                segment.startAngle >= s.startAngle &&
-                                segment.startAngle < s.startAngle + s.sweepAngle
-                        }
+                    val middleSegment = outerToMiddleMap[segment.id]
                     SelectedEmotion(
                         segment = segment,
                         coreName = segment.coreEmotion.label,

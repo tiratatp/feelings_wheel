@@ -130,7 +130,7 @@ fun FeelingsWheel(
                                     centerY = size.height.toFloat(),
                                     wheelRadius = wheelRadius,
                                     rotationDegrees = rotation,
-                                    segments = segments,
+                                    segmentsByLayer = segmentsByLayer,
                                 )
                             if (hitSegment != null) {
                                 onSegmentTapped(hitSegment)
