@@ -66,7 +66,7 @@ fun FeelingsWheel(
                         activeFlingJob?.cancel()
                         activeFlingJob = null
 
-                        val centerX = size.width / 2f
+                        val centerX = 0f
                         val centerY = size.height.toFloat()
 
                         var prevAngle =
@@ -135,7 +135,7 @@ fun FeelingsWheel(
                                 HitTestUtils.hitTest(
                                     touchX = down.position.x,
                                     touchY = down.position.y,
-                                    centerX = size.width / 2f,
+                                    centerX = 0f,
                                     centerY = size.height.toFloat(),
                                     wheelRadius = wheelRadius,
                                     rotationDegrees = rotation,
@@ -165,10 +165,10 @@ fun FeelingsWheel(
                     }
                 }.graphicsLayer {
                     rotationZ = rotation
-                    transformOrigin = TransformOrigin(0.5f, 1f)
+                    transformOrigin = TransformOrigin(0f, 1f)
                 },
     ) {
-        val center = Offset(size.width / 2f, size.height)
+        val center = Offset(0f, size.height)
         val wheelRadius = size.height
 
         drawWheel(
